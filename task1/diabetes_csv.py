@@ -9,14 +9,21 @@ no servidor.
 @author: Aydano Machado <aydano.machado@gmail.com>
 """
 
+#%%
+import os
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 import requests
 
+print("Current working directory: \t", os.getcwd())
+
+os.chdir("/home/tarcisio/Documentos/10_periodo/aprendizagem_de_maquina/ml_2020.2/task1")
+print("Current working directory: \t", os.getcwd())
+#%%
 print('\n - Lendo o arquivo com o dataset sobre diabetes')
 data = pd.read_csv('diabetes_dataset.csv')
 
-# Criando X and y par ao algorítmo de aprendizagem de máquina.\
+#%% Criando X and y par ao algorítmo de aprendizagem de máquina.\
 print(' - Criando X e y para o algoritmo de aprendizagem a partir do arquivo diabetes_dataset')
 # Caso queira modificar as colunas consideradas basta algera o array a seguir.
 feature_cols = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 
@@ -24,23 +31,24 @@ feature_cols = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness',
 X = data[feature_cols]
 y = data.Outcome
 
-# Ciando o modelo preditivo para a base trabalhada
+#%% Criando o modelo preditivo para a base trabalhada
 print(' - Criando modelo preditivo')
 neigh = KNeighborsClassifier(n_neighbors=3)
 neigh.fit(X, y)
 
-#realizando previsões com o arquivo de
+#%% Realizando previsões com o arquivo de
 print(' - Aplicando modelo e enviando para o servidor')
 data_app = pd.read_csv('diabetes_app.csv')
 data_app = data_app[feature_cols]
 y_pred = neigh.predict(data_app)
 
-# Enviando previsões realizadas com o modelo para o servidor
+#%% Enviando previsões realizadas com o modelo para o servidor
 URL = "https://aydanomachado.com/mlclass/01_Preprocessing.php"
 
-#TODO Substituir pela sua chave aqui
+#%% TODO Substituir pela sua chave aqui
 DEV_KEY = "COLOCAR_SUA_KEY_AQUI"
 
+#%%
 # json para ser enviado para o servidor
 data = {'dev_key':DEV_KEY,
         'predictions':pd.Series(y_pred).to_json(orient='values')}
