@@ -23,6 +23,14 @@ print("Current working directory: \t", os.getcwd())
 print('\n - Lendo o arquivo com o dataset sobre diabetes')
 data = pd.read_csv('diabetes_dataset.csv')
 
+
+#%% Pré-Processamento de Dados
+print(data.dtypes)
+print(data.head())
+print(data.describe())
+
+data = data.apply(lambda x: x.fillna(x.mean()),axis=0)
+
 #%% Criando X and y par ao algorítmo de aprendizagem de máquina.\
 print(' - Criando X e y para o algoritmo de aprendizagem a partir do arquivo diabetes_dataset')
 # Caso queira modificar as colunas consideradas basta algera o array a seguir.
@@ -46,7 +54,7 @@ y_pred = neigh.predict(data_app)
 URL = "https://aydanomachado.com/mlclass/01_Preprocessing.php"
 
 #%% TODO Substituir pela sua chave aqui
-DEV_KEY = "COLOCAR_SUA_KEY_AQUI"
+DEV_KEY = "MLTL"
 
 #%%
 # json para ser enviado para o servidor
